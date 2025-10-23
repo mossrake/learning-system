@@ -1,0 +1,59 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+~$*
+
+# Misc
+
+# Word files
+*.docx
+
+# Word temporary files
+~$*.docx
+~$*.doc
+
+# If you convert the DOCX to PDF locally
+#*.pdf
+
+# Personal notes or drafts not meant for public
+personal/
+drafts/
+notes/
+
+# Environment files (if you add any tooling)
+.env
+.env.local
+
+# Node modules (if you add any JavaScript tooling)
+node_modules/
+
+# Python (if you add any Python scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+
+# Log files
+*.log
+
+# Archive files (in case you want to keep local backups)
+*.zip
+*.tar.gz
+*.rar
+
+# Local configuration
+config.local.*
