@@ -137,7 +137,7 @@ Part 3 - Mossrake Group, LLC. (2025c). Multi-Timescale Continuous Learning: Emer
 
 ## License
 
-© 2025 Mossrake Group, LLC
+© 2025, 2026 Mossrake Group, LLC
 
 ---
 
