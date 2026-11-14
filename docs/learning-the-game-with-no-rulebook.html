@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning the Game With No Rulebook — Mossrake Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1b1f23;
+    --ink-soft: #4a525b;
+    --paper: #ffffff;
+    --rule: #d9dde1;
+    --tint: #f3f5f4;
+    --accent: #1f5c4a;
+    --accent-soft: #e4efea;
+    --placeholder: #8a5a00;
+    --placeholder-bg: #fff6e0;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e6e8ea;
+      --ink-soft: #a9b1b9;
+      --paper: #15181b;
+      --rule: #343a40;
+      --tint: #1d2226;
+      --accent: #7cc4a8;
+      --accent-soft: #1d2f29;
+      --placeholder: #f0c060;
+      --placeholder-bg: #2b2414;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 3.5rem 1.4rem 4rem; }
+  h1, h2, h3 { font-family: "Archivo", "Helvetica Neue", Arial, sans-serif; line-height: 1.15; color: var(--ink); }
+  h1 { font-size: clamp(2.1rem, 5.2vw, 3.1rem); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 0.6rem; }
+  .subtitle { font-size: 1.2rem; color: var(--ink-soft); margin: 0 0 1.6rem; }
+  .meta { font-size: 0.9rem; color: var(--ink-soft); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 0.6rem 0; margin-bottom: 2.6rem; }
+  h2 { font-size: 1.55rem; font-weight: 700; margin: 3rem 0 0.9rem; }
+  h3 { font-size: 1.12rem; font-weight: 600; margin: 1.9rem 0 0.5rem; }
+  p { margin: 0 0 1.05rem; }
+  .lead { font-size: 1.14rem; }
+  ul, ol { padding-left: 1.3rem; margin: 0 0 1.1rem; }
+  li { margin-bottom: 0.5rem; }
+  li strong { font-weight: 600; }
+  blockquote {
+    margin: 1.6rem 0; padding: 0.2rem 0 0.2rem 1.2rem;
+    border-left: 3px solid var(--accent);
+    font-size: 1.25rem; font-family: "Archivo", sans-serif; font-weight: 500; color: var(--ink);
+  }
+  blockquote cite { display: block; font-family: "IBM Plex Sans", sans-serif; font-size: 0.88rem; font-style: normal; color: var(--ink-soft); margin-top: 0.4rem; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  .table-wrap { overflow-x: auto; margin: 1.2rem 0 1.4rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.93rem; line-height: 1.45; }
+  th, td { text-align: left; vertical-align: top; padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--rule); }
+  th { font-family: "Archivo", sans-serif; font-weight: 600; font-size: 0.92rem; background: var(--tint); }
+  td.num { white-space: nowrap; }
+  .caption { font-size: 0.88rem; color: var(--ink-soft); margin-top: -0.6rem; }
+  .forms { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.9rem; margin: 1.3rem 0 1.5rem; }
+  .form { background: var(--tint); border-radius: 6px; padding: 0.95rem 1.05rem; }
+  .form h3 { margin: 0 0 0.35rem; font-size: 1.02rem; }
+  .form p { margin: 0; font-size: 0.95rem; }
+  .callout { background: var(--accent-soft); border-radius: 6px; padding: 1rem 1.15rem; margin: 1.4rem 0; }
+  .callout p:last-child { margin-bottom: 0; }
+  .placeholder { background: var(--placeholder-bg); border: 1px dashed var(--placeholder); border-radius: 6px; padding: 1rem 1.15rem; margin: 1.4rem 0; color: var(--ink); }
+  .placeholder strong { color: var(--placeholder); }
+  .placeholder p:last-child { margin-bottom: 0; }
+  .fill { background: var(--placeholder-bg); color: var(--placeholder); border-radius: 3px; padding: 0 0.25em; font-weight: 600; }
+  footer { margin-top: 3.5rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); font-size: 0.88rem; color: var(--ink-soft); }
+  footer p { margin-bottom: 0.5rem; }
+  @media print {
+    body { font-size: 11pt; }
+    main { max-width: none; padding: 0; }
+    .placeholder, .callout, .form { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Learning the Game With No Rulebook</h1>
+<p class="subtitle">Tacit environment learning with Act-Learn</p>
+<div class="meta">Mossrake Group, LLC · November 2026</div>
+
+<h2>The rules nobody wrote down</h2>
+
+<p class="lead">Every operation runs on rules that appear in no manual. One position in a work cell will not take a part, and nobody recorded why. A trading partner rejects a shipment notice for a reason its guide never mentions. An insurer denies a claim on a criterion that changed last quarter. A lab instrument reads high on Monday mornings, after the weekend shutdown.</p>
+
+<p>Someone in the organization usually knows these rules, learned the hard way, one rejection at a time. When that person leaves, the rules leave too, and the next person starts the education over.</p>
+
+<p>This paper is about systems that learn such rules themselves, while they work, and keep what they learn as a world model that people can read, correct, check, and own. We call the setting a <em>tacit environment</em> and the capability <em>tacit environment learning</em>. Act-Learn, a Mossrake system, is built for it.</p>
+
+<p>Our earlier papers described automation that learns while it works, and showed it on the shop floor. This paper takes the same capability beyond the shop floor, to any setting where the real rules have to be learned from the way a system behaves. Companion pieces apply it to particular settings.</p>
+
+<h2>Tacit environments</h2>
+
+<blockquote>“We can know more than we can tell.”<cite>Michael Polanyi, <em>The Tacit Dimension</em> (1966)</cite></blockquote>
+
+<p>Polanyi’s observation gave us the idea of tacit knowledge: knowledge people hold but cannot fully put into words. A tacit environment is a setting that runs on such knowledge, a workplace, craft, or community where the real rules are unwritten and newcomers learn them by immersion rather than by reading.</p>
+
+<p>The same is true of systems. A partner’s order system, a payer’s claims engine, or an AI model behind a stable name all enforce rules that were never written down, or were written down once and have since moved. In Polanyi’s terms, <strong>some systems know more than they tell.</strong> Their knowledge lives in two places at once: in the system’s behavior, and in the heads of the specialists who have learned it.</p>
+
+<p>Tacit environments surprise you without explaining why. The surprise takes four forms.</p>
+
+<div class="forms">
+  <div class="form"><h3>Rejection</h3><p>The system refuses, with a code or nothing at all. EDI documents, insurance claims, records loaded during a migration.</p></div>
+  <div class="form"><h3>Drift</h3><p>Something that used to work stops working, gradually or on a schedule. Lab instruments, production lines, AI models that change behind the same name.</p></div>
+  <div class="form"><h3>Silent misbehavior</h3><p>The system accepts the input and quietly does the wrong thing. An integration that succeeds but writes bad data downstream; a job that completes with partial results.</p></div>
+  <div class="form"><h3>Delayed consequence</h3><p>The surprise arrives days or weeks later and must be traced back to its cause. A compliance chargeback for a shipment notice that was accepted.</p></div>
+</div>
+
+<p>Not every surprise makes a good target. The settings where learning pays share five properties: outcomes are observable but causes are hidden; the knowledge today lives in experienced people and leaves with them; rediscovering it is expensive; a system can act safely, in a test environment or by advising a person; and the rules change over time, which favors a system that keeps learning over one trained once.</p>
+
+<h2>What it takes to work in a tacit environment</h2>
+
+<p>Any system that hopes to operate in a tacit environment, whatever the domain, has to meet six requirements.</p>
+
+<ol>
+  <li><strong>Learn by acting.</strong> Nobody can supply the rules, so the system must discover them through the consequences of what it does.</li>
+  <li><strong>Hold competing explanations.</strong> A rejection rarely says why. The system must keep several explanations alive until evidence settles them, including evidence that arrives late.</li>
+  <li><strong>Keep what it learns readable and correctable.</strong> People must be able to see what the system believes, why, and fix it directly.</li>
+  <li><strong>Keep learning as the rules move.</strong> What held last quarter may not hold now.</li>
+  <li><strong>Start from what people already know.</strong> Specialists’ experience is the best starting point available, and a system should use it rather than ignore it.</li>
+  <li><strong>Leave the goals with people.</strong> The system learns how the environment works; what it is trying to achieve is set, and changed, by the people responsible for the work.</li>
+</ol>
+
+<h2>Why current approaches fall short</h2>
+
+<p>Each familiar approach meets some of these requirements and misses others.</p>
+
+<ul>
+  <li><strong>Documentation</strong>, such as implementation guides and runbooks, is the rulebook someone intended, not the one the system enforces. It is incomplete when written and drifts out of date.</li>
+  <li><strong>Rule engines and mappings</strong> encode what is already known. They cannot discover a rule nobody has stated.</li>
+  <li><strong>Trained models</strong> need many examples from each environment, which tacit environments rarely provide. They are frozen between retraining cycles, their knowledge sits in weights no one can read, and it belongs to the vendor.</li>
+  <li><strong>General-purpose AI agents</strong> are capable in the moment but forget between sessions, can be corrected only by rewriting their instructions, and keep no record of what they learned.</li>
+  <li><strong>Experienced people</strong> meet every requirement. They are also scarce and expensive, and their knowledge leaves with them.</li>
+</ul>
+
+<h2>Tacit environment learning</h2>
+
+<p>Act-Learn learns while it works. It is tasked in plain language, acts through whatever interface the environment offers, and builds a world model of how the environment behaves as it goes. It uses commercial foundation models as its cognitive substrate for reasoning and planning. What it learns is kept outside the model, in the world model.</p>
+
+<p>It learns from surprise. Before each action it states what it expects to happen. When the outcome differs, it has found something it did not know, and that event is kept as an episode: a record of what was done and what came back. As it works, it forms working generalizations about how the environment behaves and revises them freely. At a pause, in a consolidation step we call micro-sleep, the generalizations that have held up are checked against the record of what actually happened and established in the world model, each with the episodes behind it.</p>
+
+<p>An established generalization is not final. When the environment changes, or a generalization proves incomplete, a later session rewords it or ends it. The earlier wording is kept with its dates, so every change of mind can be audited. A generalization that the work has not called on lately is not in doubt for that reason. It stands until the evidence goes against it.</p>
+
+<p>Knowledge comes in two tiers. <strong>Given knowledge</strong> is what operators provide or approve; the system never revises it on its own, and evidence against it is raised to an operator. <strong>Learned knowledge</strong> is what the system established for itself, and remains open to revision. Operators can read both, correct either, lock a generalization they have verified, and promote one into given knowledge once they trust it. Specialists’ accounts of an environment can be added as a starting point, which the system then affirms or corrects by working.</p>
+
+<p>Working is the main mode. Given a task, Act-Learn acts, and learns as it acts. In domains where there is a safe space to explore, such as a test environment or a commissioning period, exploration mode can give the working sessions that follow a more complete and more exact world model. Exploring reaches what the job does not touch, and separates causes that ordinary work never forces apart. It is an option, not a prerequisite, and so is the third way of starting: what the people responsible already know and choose to tell it.</p>
+
+<p>A world model belongs to the environment it was learned in. Each new session there starts from it, so the system’s second day in an environment is not like its first.</p>
+
+<p>This is how people learn tacit environments, made explicit and durable.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>How people learn a tacit environment</th><th>What Act-Learn does</th></tr></thead>
+  <tbody>
+    <tr><td>Work alongside the environment and learn by immersion</td><td>Learns as it works, treating each surprise as evidence</td></tr>
+    <tr><td>Debrief afterwards to surface what was learned</td><td>Consolidates experience into established generalizations at each pause</td></tr>
+    <tr><td>Listen to the veterans’ stories</td><td>Starts from specialists’ accounts, then affirms or corrects them</td></tr>
+    <tr><td>Document selectively, without freezing everything</td><td>Keeps a world model that operators read, correct, and lock</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Four properties follow from this design. The world model is <strong>readable</strong>: it is a set of generalizations in plain language, not weights in a network. It is <strong>editable</strong>: an operator who sees something wrong can correct, lock, or retire it directly, with no retraining. It is <strong>evidenced</strong>: every generalization traces to the episodes behind it and carries its history, when it was first established, when it last held, and when it ended. And it is <strong>yours</strong>: it lives in a document, so it survives a change of AI provider and belongs to the organization rather than the platform. Throughout, the system learns how the environment works, while goals and final judgment stay with people.</p>
+
+<p>Delayed consequences need one more capability: holding competing explanations open while evidence arrives late and out of order. Mossrake’s <a href="https://github.com/mossrake/async-reasoning-engine">Asynchronous Reasoning Engine</a> was built for exactly that, and is the component we expect to use for it.</p>
+
+<h2>Evidence across three environments</h2>
+
+<p>A claim of generality is only as strong as the variety behind it. The approach, with nothing specific to any domain built in, has been tested in three environments that share nothing on the surface.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Environment</th><th>What it was not told</th><th>What it did</th></tr></thead>
+  <tbody>
+    <tr><td>A robot work cell</td><td>That parts stack, and that one position refuses placements</td><td>Given a task and nothing else, learned both in the middle of the job and finished it. In later sessions it worked from its world model and followed an unannounced change</td></tr>
+    <tr><td>Games with no instructions</td><td>The rules, the controls, and the goal</td><td>Completed levels in all eight games tried; 25 of 27 generalizations checked were correct</td></tr>
+    <tr><td>A counterpart’s validation system</td><td>Eight rules its published guide does not state</td><td>Its first job, from nothing, went through with every document accepted. Exploration established all eight rules. It followed an unannounced change</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="caption">The same core in all three. Only the environment was different.</p>
+
+<h3>A physical work cell</h3>
+
+<p>In a simulated robot work cell, the system was never told that parts can be stacked, or that one position refuses placements. Given a task and nothing else, it met both in the middle of the job. A pickup left the board looking unchanged. A placement was refused. Each time it worked out what had happened, adapted, and carried on. It finished the task in six actions, and ended the session with a world model it did not have at the start: three generalizations, all true, each tied to the events behind it.</p>
+
+<p>A simulated cell is also a safe space to explore, and in a separate series of sessions we began there. The exploration session established six generalizations: the two above, and others the job had not touched. The working sessions that followed started from that world model. Then the cell was changed without notice: the position that refuses placements was moved. The system met the change on its first action and finished the task another way. At its next pause it replaced “this position refuses placements” with a more accurate generalization, that the refusing position can differ from one session to the next. The earlier wording was kept, dated, and flagged for a person. An operator reviewed the changes and retired one entry that described a job done rather than how the cell behaves, and the next session started from the corrected world model.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Session</th><th>What it was asked to do</th><th>What happened</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>Exploration mode: explore the cell, starting from nothing</td><td>Six generalizations established, including both hidden rules.</td></tr>
+    <tr><td class="num">2</td><td>A task in plain language</td><td>Completed in 2 actions, with no surprises.</td></tr>
+    <tr><td class="num">3</td><td>A second task</td><td>Completed in 2 actions, with no surprises.</td></tr>
+    <tr><td class="num">4</td><td>The same task, after an unannounced change to the cell</td><td>Met the change on the first action, completed the task in 5, and replaced the generalization that no longer held.</td></tr>
+    <tr><td class="num">5</td><td>The same task, after an operator’s review</td><td>Completed in 3 actions. Nothing new to learn, and nothing added.</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="caption">The series that began with exploration: five consecutive sessions in one simulated cell, one run each, November 2026. Each session began with only the world model left by the sessions before it.</p>
+
+<h3>Games no one explained: ARC-AGI-3</h3>
+
+<p><a href="https://arcprize.org/arc-agi/3">ARC-AGI-3</a> is an interactive benchmark from the ARC Prize Foundation. Each environment is a game with no instructions, no stated rules, and no stated goal; levels grow harder, and scoring compares the actions taken against human players’ efficiency. At its launch in March 2026, frontier AI models scored below one percent while human players solved every environment. It is, in effect, a laboratory of tacit environments.</p>
+
+<p>We tested an earlier version of Act-Learn on a random sample of eight of the benchmark’s public games, chosen by lot rather than by us, and scored with the benchmark’s <a href="https://docs.arcprize.org/methodology">documented method</a>:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Game</th><th>Levels completed</th><th>Completed at or under the human baseline</th><th>Game score</th></tr></thead>
+  <tbody>
+    <tr><td>SB26</td><td class="num">8 of 8 (won)</td><td class="num">8</td><td class="num">100%</td></tr>
+    <tr><td>CD82</td><td class="num">6 of 6 (won)</td><td class="num">5</td><td class="num">96.3%</td></tr>
+    <tr><td>SP80</td><td class="num">5 of 6</td><td class="num">5</td><td class="num">71.4%</td></tr>
+    <tr><td>CN04</td><td class="num">4 of 6</td><td class="num">3</td><td class="num">46.8%</td></tr>
+    <tr><td>DC22</td><td class="num">3 of 6</td><td class="num">3</td><td class="num">28.6%</td></tr>
+    <tr><td>S5I5</td><td class="num">3 of 8</td><td class="num">2</td><td class="num">15.3%</td></tr>
+    <tr><td>SU15</td><td class="num">3 of 9</td><td class="num">3</td><td class="num">13.3%</td></tr>
+    <tr><td>LF52</td><td class="num">1 of 10</td><td class="num">1</td><td class="num">1.8%</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="caption">Public games, one run each, with an earlier version of the system; self-reported, not verified by the ARC Prize Foundation. Mean game score 46.7 percent. Of the 33 levels completed, 30 were completed at or under the human baseline.</p>
+
+<p>The scores matter less than what it learned. We checked 27 of the generalizations it formed against the games’ source code, and 25 were correct; both errors arose where its evidence was incomplete. In one game it recognized peg solitaire and worked out how jumps are entered. In another it mapped how tilting a container changes which part of a shape a pour overwrites. In a third it learned that the goal was to route liquid into every cup by positioning bars that split the stream, and, in a level whose display had been turned upside down without notice, that the liquid was now flowing upward. No one told it any of this, and every one of those generalizations is written down where a person can read it.</p>
+
+<h3>A counterpart’s unwritten rules</h3>
+
+<p>The third environment is a system on the other side of a business relationship: a simulated retailer that receives a supplier’s shipment notices and invoices. It publishes a guide, and it enforces eight rules the guide does not state. Four reject a document with a terse message. Four accept the document and take a deduction twelve days later, and two of those share one deduction code. The supplier has a record of 30 past documents, of which eleven had been rejected and seven more had drawn deductions, and a test environment to send documents to. Nothing was added to the system for this environment except the simulated counterpart itself.</p>
+
+<p>Given the task of shipping and invoicing eight open orders, and nothing else, the system read the supplier’s record before sending anything. Every document it then sent was accepted, and none drew a deduction. The world model it wrote up afterwards covered five of the eight unwritten rules.</p>
+
+<p>The retailer’s test environment is a safe space to explore, and a separate series of sessions began there.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Session</th><th>What it was asked to do</th><th>What happened</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>Exploration mode: learn the counterpart, starting from nothing</td><td>Read the supplier’s record, then sent 27 test documents. Established all eight unwritten rules. Nothing it wrote down was false.</td></tr>
+    <tr><td class="num">2 to 4</td><td>Ship and invoice eight open orders</td><td>Three times: 16 documents each, none rejected, no deductions.</td></tr>
+    <tr><td class="num">5</td><td>The same, with one rule changed partway through, unannounced</td><td>One notice refused. It tested the refusal, found the form now accepted, finished all eight orders, and reworded the two entries the refusal contradicted. The old wording was kept and the changes listed for a person.</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="caption">The series that began with exploration: five consecutive sessions with one simulated retailer, one run each, November 2026. The simulator and its rules were built by us, and documents were reduced to their fields.</p>
+
+<p>Two details are worth drawing out. The first shows what exploration is for. One deduction code covered two different faults, and in the supplier’s record every notice with one fault also had the other. From the record alone the two cannot be told apart, and the working session that started from nothing wrote them down as one, which is broader than the truth. In exploration mode the system separated them, and fixed a threshold exactly, by varying one thing at a time and waiting to see which documents were charged. That is a delayed consequence traced to its cause. On the change, it adapted correctly and corrected its world model, but it recorded the refusal as an exception whose cause was not yet determined, not as a change in the counterpart’s rules. In the simulation the change fell in the middle of a single job, where the two are hard to tell apart.</p>
+
+<p>The simulation is kinder than a real counterpart in one way that matters. Its test environment charges deductions, which lets a late consequence be studied by experiment. In practice there is often only a record to go on, and tracing a late consequence to its cause from a record alone is something we have not yet shown. A companion article, <em>The Rulebook Your Trading Partners Never Wrote</em>, covers this environment in detail.</p>
+
+<h3>What the three have in common</h3>
+
+<p>In each environment the system started with nothing but a way to act and a way to observe, and in the two where we gave it a task it got on with the task. In each it ended with a world model a person can read, in which the hidden rules appear in plain language with the events behind them. Where we could check a world model against the truth, in the work cell, the games’ source code, and the simulated counterpart, 48 of the 52 entries we checked were correct. The errors arose where the evidence was incomplete or, in one working session, where two faults always occurred together in the record. And in the two environments where we changed a rule without notice, it met the change while doing ordinary work, finished the work, and left a corrected world model with the change marked for a person.</p>
+
+<h2>Beyond the shop floor: where tacit environments appear</h2>
+
+<p>The three environments above are instances. The same four forms of surprise recur wherever a system’s real rules have to be learned from its behavior, and the same learning applies.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Domain</th><th>Rejection</th><th>Drift</th><th>Silent misbehavior</th><th>Delayed consequence</th></tr></thead>
+  <tbody>
+    <tr><td>Manufacturing cells</td><td>Parts rejected at inspection</td><td>Fixtures and tools wear</td><td>In-spec but marginal parts</td><td>Field returns</td></tr>
+    <tr><td>Supply chain documents</td><td>Documents rejected by a partner</td><td>Partner requirements revised</td><td>Accepted, then misapplied</td><td>Compliance chargebacks</td></tr>
+    <tr><td>Healthcare revenue cycle</td><td>Claims denied</td><td>Payer rules change</td><td>Paid at the wrong rate</td><td>Denials after adjudication</td></tr>
+    <tr><td>Data migration and integration</td><td>Records refused on load</td><td>Target system upgraded</td><td>Loaded with wrong values</td><td>Errors found in reconciliation</td></tr>
+    <tr><td>Laboratory automation</td><td>Runs aborted</td><td>Instrument calibration drifts</td><td>Plausible but biased results</td><td>Failed downstream assays</td></tr>
+    <tr><td>Buildings and facilities</td><td>Equipment faults</td><td>Seasonal and occupancy shifts</td><td>Comfort met at excess energy</td><td>Equipment wear</td></tr>
+    <tr><td>AI model operations</td><td>Refusals and failed formats</td><td>Behavior changes behind the same name</td><td>Same voice, worse answers</td><td>Errors surfacing in later steps</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>What a good first deployment looks like is the same in every row. The environment gives a verdict that can be observed. There is a safe way to act: a test environment, a sandbox, or advice to a person who acts. Someone already reviews the work, and would rather review a world model than rediscover the rules. And the cost of a wrong guess can be counted, so the value of knowing the rule can be counted too.</p>
+
+<p>The system meets an environment in whichever way that environment allows. It can act in it directly and learn from what comes back. It can read a record of what others did and what came of it, which to the system is one more kind of action. And it can work beside a person, proposing and learning from the result. The world model it builds is the same in each case.</p>
+
+<p>The last row of the table connects this work to Mossrake’s governance research. <a href="https://github.com/mossrake/lmt">Language Model Tectonics</a> detects and dates when an AI model’s behavior changes; <a href="https://github.com/mossrake/meaning-slip">Meaning Slip</a> measures when agents proceed without meaning the same thing. Those are instruments. Tacit environment learning is the learner that turns what they measure into an account of how a system actually behaves.</p>
+
+<h2>Where we are</h2>
+
+<p>The approach has been demonstrated in a simulated robot cell and against a simulated counterpart’s validation system, in each case across sessions and through an unannounced change. An earlier version was demonstrated on interactive benchmark games no one explained to it. Deployment in production environments is the work ahead. We want to be clear about what remains open:</p>
+
+<ul>
+  <li><strong>Scale.</strong> Our results involve tens of generalizations per environment. Real deployments may need hundreds or thousands, and we have not yet shown the approach holds at that size.</li>
+  <li><strong>Evidence so far is preliminary.</strong> The robot cell and counterpart results are single runs in small simulations we built so that what the system learns could be checked. The benchmark results are single runs on public games, self-reported, with an earlier version of the system. Repeated runs and independent verification are ahead.</li>
+  <li><strong>What exploring first is worth.</strong> In our simulations a mistake costs nothing and the environment answers at once. How much a period of exploration adds, against starting work directly, will differ from one real environment to the next, and we have not measured it.</li>
+  <li><strong>Noisy environments.</strong> Where the same action can produce different outcomes, a single surprise is weak evidence, and learning takes more of it.</li>
+  <li><strong>Late consequences.</strong> In simulation the system separated two causes behind one late penalty, in a test environment that reproduced the penalty. Tracing a late consequence to its cause from a record alone has not yet been demonstrated.</li>
+  <li><strong>From one environment to the next.</strong> A world model serves the environment it was learned in. Carrying what holds across several environments of a kind into a new one is designed and not yet demonstrated.</li>
+  <li><strong>Safe action.</strong> The approach assumes the system can act in a test environment or advise a person. Where neither is possible, it does not apply.</li>
+</ul>
+
+<p>The core idea is simple to state. Some systems know more than they tell, and until now, learning what they know has required a person, one surprise at a time. A system can do that learning too, while it works, keep what it learns where people can read, correct, and check it, and keep learning as the rules move.</p>
+
+<footer>
+  <p>Research background: <a href="https://github.com/mossrake/learning-system">Learning Through Narratives: Episodic Compression</a> · <a href="https://github.com/mossrake/async-reasoning-engine">Asynchronous Reasoning Engine</a> · earlier papers and companion pieces at <a href="https://mossrake.ai">mossrake.ai</a></p>
+  <p>Act-Learn is a Mossrake system. Mossrake® is a registered trademark of Mossrake Group, LLC.</p>
+  <p>© 2026 Mossrake Group, LLC · v0.6</p>
+</footer>
+
+</main>
+</body>
+</html>
